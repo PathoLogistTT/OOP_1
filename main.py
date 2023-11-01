@@ -1,38 +1,41 @@
 class Surgeon:
     def __init__(self, name, qualification, position):
-        self.name = name
-        self.qualification = qualification
-        self.position = position
+        self._name = name
+        self._qualification = qualification
+        self._position = position
 
     def representation(self):
-        return f"{self.name}, {self.qualification}, {self.position}"
+        return f"Хирург: {self._name}, {self._qualification}, {self._position}"
+
 
 class Patient:
     def __init__(self, name, age, illness):
-        self.name = name
-        self.age = age
-        self.illness = illness
+        self._name = name
+        self._age = age
+        self._illness = illness
 
     def representation(self):
-        return f" {self.name}, {self.age}, {self.illness}"
+        return f"Пациент: {self._name}, {self._age}, {self._illness}"
 
 
 class Surgery:
     def __init__(self, name, surgeon, patients, time, day):
-        self.name = name
-        self.surgeon = surgeon
-        self.patients = patients
-        self.time = time
-        self.day = day
+        self._name = name
+        self._surgeon = surgeon
+        self._patients = patients
+        self._time = time
+        self._day = day
 
     def representation(self):
-        return f"{self.name}, {self.time}, {self.day}"
+        return f"Операция: {self._name}, {self._time}, {self._day}"
 
     def patient_list(self):
-        return [p.representation() for p in self.patients]
+        return [p.representation() for p in self._patients]
+
 
 # Инициализация
 registry = []
+
 
 # Главное меню
 def main():
@@ -60,7 +63,7 @@ def main():
                 surgeon = Surgeon(name, qualification, position)
                 registry.append(surgeon)
                 print(f"Объект с номером {len(registry) - 1} успешно создан.")
-
+                1
             elif object_type == "2":
                 name = input("Введите имя пациента: ")
                 age = input("Введите возраст пациента: ")
@@ -122,6 +125,7 @@ def main():
 
         else:
             print("\nНеверный выбор. Попробуйте снова.")
+
 
 if __name__ == "__main__":
     main()
