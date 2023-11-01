@@ -1,39 +1,35 @@
-def __init__(self, name, qualification, position):
-    '''
-    Метод инициализации объекта Surgeon.
+class Surgeon:
+    def __init__(self, name, qualification, position):
+        self.name = name
+        self.qualification = qualification
+        self.position = position
 
-    Параметры:
-    - name : Имя хирурга
-    - qualification : Квалификация хирурга
-    - position : Должность хирурга
-    '''
+    def representation(self):
+        return f"{self.name}, {self.qualification}, {self.position}"
 
-def __init__(self, name, age, illness):
-    '''
-    Метод инициализации объекта Patient
+class Patient:
+    def __init__(self, name, age, illness):
+        self.name = name
+        self.age = age
+        self.illness = illness
 
-    Параметры:
-    - name : Имя пациента
-    - age : Возраст пациента
-    - illness : Заболевание пациента
-    '''
+    def representation(self):
+        return f" {self.name}, {self.age}, {self.illness}"
+
 
 class Surgery:
     def __init__(self, name, surgeon, patients, time, day):
-        '''
-        Метод инициализации объекта Surgery.
+        self.name = name
+        self.surgeon = surgeon
+        self.patients = patients
+        self.time = time
+        self.day = day
 
-        Параметры:
-        - name : Название операции
-        - surgeon : Хирург, выполняющий операцию
-        - patients : Список пациентов, участвующих в операции
-        - time : Время проведения операции
-        - day : День проведения операции
-        '''
+    def representation(self):
+        return f"{self.name}, {self.time}, {self.day}"
 
     def patient_list(self):
-        # Метод, возвращающий список строковых представлений пациентов.
-        pass
+        return [p.representation() for p in self.patients]
 
 # Инициализация
 registry = []
@@ -61,12 +57,17 @@ def main():
                 name = input("Введите имя хирурга: ")
                 qualification = input("Введите квалификацию хирурга: ")
                 position = input("Введите должность хирурга: ")
-                print("Хирург успешно создан.")
+                surgeon = Surgeon(name, qualification, position)
+                registry.append(surgeon)
+                print(f"Объект с номером {len(registry) - 1} успешно создан.")
+
             elif object_type == "2":
                 name = input("Введите имя пациента: ")
                 age = input("Введите возраст пациента: ")
                 illness = input("Введите болезнь пациента: ")
-                print(f"Пациент успешно создан.")
+                patient = Patient(name, age, illness)
+                registry.append(patient)
+                print(f"Объект с номером {len(registry) - 1} успешно создан.")
 
             elif object_type == "3":
                 name = input("Введите название операции: ")
@@ -77,20 +78,34 @@ def main():
                 patients = []
                 while True:
                     add_patient = input("\nДобавить пациента (да/нет): ")
-                    if add_patient == "да":
+                    if add_patient.lower() == "да":
                         patient_name = input("Введите имя пациента: ")
-                        patient_age = int(input("Введите возраст пациента: "))
+                        while True:
+                            try:
+                                patient_age = int(input("Введите возраст пациента: "))
+                                break
+                            except ValueError as a:
+                                print("введён неверный символ, повторите попытку")
                         patient_illness = input("Введите болезнь пациента: ")
-                        print("Пациент добавлен")
-                    else:
+                        patient_ = Patient(patient_name, patient_age, patient_illness)
+                        patients.append(patient_)
+                    elif add_patient.lower() == "нет":
                         break
-                print(f"\nОбъект успешно создан.")
+
+                surgeon_ = Surgeon(surgeon, "", "")
+                surgery = Surgery(name, surgeon_, patients, time, day)
+                registry.append(surgery)
+                print(f"\nОбъект с номером {len(registry) - 1} успешно создан.")
 
         elif choice == "2":
             if len(registry) == 0:
                 print("\nРеестр пуст.")
             else:
-                pass
+                for index, obj in enumerate(registry):
+                    print(f"\n{index}: {obj.representation()}")
+                    if isinstance(obj, Surgery):
+                        for patient in obj.patient_list():
+                            print(patient)
 
         elif choice == "3":
             if len(registry) == 0:
@@ -98,7 +113,7 @@ def main():
             else:
                 index = int(input("\nВведите индекс объекта: "))
                 if index >= 0 and index < len(registry):
-                    print("Распечатать добавленные объекты")
+                    print(registry[index].representation())
                 else:
                     print("\nНеверный индекс объекта.")
 
